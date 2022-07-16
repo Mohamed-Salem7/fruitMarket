@@ -6,6 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fruit/Home_Screen/Notificatoin_App.dart';
 import 'package:fruit/Home_Screen/cubit/cubit.dart';
 import 'package:fruit/Home_Screen/cubit/state.dart';
+import 'package:fruit/Home_Screen/details_screen.dart';
 import 'package:fruit/Home_Screen/detalis/header.dart';
 import 'package:fruit/Home_Screen/models/Product_Model.dart';
 import 'package:fruit/constant.dart';
@@ -500,7 +501,7 @@ Widget buildProduct(ProductModel productModel, context, index,Size size) => Colu
             InkWell(
               onTap: ()
               {
-
+                Get.to(DetailsScreen(productModel: productModel,));
               },
               child: Container(
                 height: size.height * 0.18,
