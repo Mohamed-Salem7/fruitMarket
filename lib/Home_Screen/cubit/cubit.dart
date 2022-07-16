@@ -104,6 +104,8 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
+
+
   Future<void> getFavoriteVegetables() async
   {
     favoritesProduct  = [];
@@ -125,18 +127,6 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
 
-  Future<void> favoriteProduct(String productId)  async{
-    await FirebaseFirestore.instance
-        .collection('user')
-        .doc(uId)
-        .collection('vegetables')
-        .doc(productId)
-        .set({'favorite': true}).then((value) {
-      emit(SuccessGetFavoriteProduct());
-    }).catchError((error) {
-      emit(ErrorGetFavoriteProduct());
-    });
-  }
 
   // Future<void> getFavoriteProduct() async {
   //   await FirebaseFirestore.instance.collection('user').get().then((value) {

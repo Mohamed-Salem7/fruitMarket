@@ -497,18 +497,24 @@ Widget buildProduct(ProductModel productModel, context, index,Size size) => Colu
         Stack(
           alignment: AlignmentDirectional.topEnd,
           children: [
-            Container(
-              height: size.height * 0.18,
-              width: size.width * 0.4,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  20,
-                ),
-                image: DecorationImage(
-                  image: NetworkImage(
-                    '${productModel.image}',
+            InkWell(
+              onTap: ()
+              {
+
+              },
+              child: Container(
+                height: size.height * 0.18,
+                width: size.width * 0.4,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    20,
                   ),
-                  fit: BoxFit.cover,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      '${productModel.image}',
+                    ),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -516,7 +522,7 @@ Widget buildProduct(ProductModel productModel, context, index,Size size) => Colu
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  HomeCubit.get(context).favoriteProduct(HomeCubit.get(context).favorite[index]);
+                  // HomeCubit.get(context).favoriteProduct(HomeCubit.get(context).favorite[index]);
                 },
                 child: CircleAvatar(
                   backgroundColor: Colors.white,
