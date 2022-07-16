@@ -81,21 +81,11 @@ class HomeCubit extends Cubit<HomeState> {
   List<ProductModel> vegetables = [];
 
 
-  List<ProductModel> favoritesProduct = [];
-
-  List<String> favorite = [];
-
   Future<void> getVegetables() async {
     vegetables = [];
     await FirebaseFirestore.instance.collection('organicV').get().then((value) {
       value.docs.forEach((element) {
         vegetables.add(ProductModel.fromJson(element.data()));
-        // element.reference.collection('favorite').get().then((value) {
-        //    value.docs.forEach((element) {
-        //      favorite.add(element.id);
-        //      favoritesProduct.add(ProductModel.fromJson(element.data()));
-        //    });
-        // }).catchError((error) {});
       });
       emit(GetProductSuccessfulFromFirebase());
     }).catchError((error) {
@@ -106,51 +96,90 @@ class HomeCubit extends Cubit<HomeState> {
 
 
 
-  Future<void> getFavoriteVegetables() async
-  {
-    favoritesProduct  = [];
-    favorite = [];
-    await FirebaseFirestore.instance.collection('user').get().then((value) {
-      value.docs.forEach((element) {
-        element.reference.collection('vegetables').get().then((value) {
-          value.docs.forEach((element) {
-            favorite.add(element.id);
-            print(favorite.length);
-          });
-        }).catchError((error) {});
-      });
-      emit(SuccessFavoriteVegetables());
-    }).catchError((error){
-      emit(ErrorFavoriteVegetables());
-    });
+  bool isFavourite = false;
 
+  void CheckFavourite({
+    required ProductModel model,
+  }) {
+    isFavourite = false;
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(uId)
+        .collection('favorite')
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        if (element.id == model.uId) {
+          deleteFavouriteProduct(model: model);
+          isFavourite = true;
+        }
+      });
+      if (!isFavourite) {
+        sendFavouriteProduct(model: model);
+      }
+    }).catchError((error) {
+      emit(CheckFavouriteErrorState(error));
+    });
+  }
+
+  List<ProductModel> productModel = [];
+
+  void getFavouriteProduct() {
+    print(uId);
+    emit(GetFavouriteLoadingState());
+    productModel = [];
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(uId)
+        .collection('favorite')
+        .snapshots()
+        .listen((event) {
+      productModel = [];
+      event.docs.forEach((element) {
+        productModel.add(ProductModel.fromJson(element.data()));
+      });
+      emit(GetFavouriteSuccessState());
+    });
+  }
+
+  void sendFavouriteProduct({
+    required ProductModel model,
+  }) {
+    String uid = model.uId;
+    emit(SetFavouriteLoadingState());
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(uId)
+        .collection('favorite')
+        .doc(uid)
+        .set(model.toMap())
+        .then((value) {
+      emit(SetFavouriteSuccessState());
+    }).catchError((error) {
+      emit(SetFavouriteErrorState(error.toString()));
+    });
+  }
+
+  void deleteFavouriteProduct({
+    required ProductModel model,
+  }) {
+    emit(DeleteFavouriteLoadingState());
+    String uid = model.uId;
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(uId)
+        .collection('favorite')
+        .doc(uid)
+        .delete()
+        .then((value) {
+      emit(DeleteFavouriteSuccessState());
+    }).catchError((error) {
+      emit(DeleteFavouriteErrorState(error.toString()));
+    });
   }
 
 
 
-  // Future<void> getFavoriteProduct() async {
-  //   await FirebaseFirestore.instance.collection('user').get().then((value) {
-  //     value.docs.forEach((element) {
-  //       print(element.id);
-  //       print(registerModel!.uId);
-  //       if (element.id == registerModel!.uId) {
-  //         element.reference
-  //             .collection('favourite')
-  //             .doc()
-  //             .set({'isFavourite' : true,})
-  //             .then((value) {
-  //               favoritesProduct.add(ProductModel.fromJson(element.data()));
-  //               favorite.add(element.id);
-  //               print(favoritesProduct);
-  //               print(favorite);
-  //           emit(GetFavoriteProductSuccessful());
-  //         });
-  //       }
-  //     });
-  //   }).catchError((error) {
-  //     emit(GetFavoriteProductError(error.toString()));
-  //   });
-  // }
 
 
   List<ProductModel> mixedVegetables = [];

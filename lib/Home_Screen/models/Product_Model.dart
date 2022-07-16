@@ -25,16 +25,16 @@ class ProductModel
     describe = json['zdescribe'];
   }
 
-  Map<dynamic,dynamic> toMap()
+  Map<String,dynamic> toMap()
   {
     return
       {
-        image : 'image',
-        name : 'name',
-        mass : 'mass',
-        uId : 'uId',
-        rating : 'rating',
-        describe : 'zdescribe',
+        'image' : image,
+        'name' : name,
+        'mass' : mass,
+        'uId' : uId,
+        'rating' : rating,
+        'describe' : describe,
       };
   }
 }

@@ -13,7 +13,7 @@ class MainScreen extends StatelessWidget {
     return BuildCondition(
       condition: true,
       builder: (context) => BlocProvider(
-        create: (context) => HomeCubit()..getUserData()..getFavoriteVegetables(),
+        create: (context) => HomeCubit()..getUserData(),
         child: BlocConsumer<HomeCubit,HomeState>(
           listener: (context, state) {} ,
           builder: (context,state)

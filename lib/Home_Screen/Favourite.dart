@@ -18,51 +18,30 @@ class Favourite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit()..getVegetables(),
+      create: (context) => HomeCubit()..getFavouriteProduct(),
       child: BlocConsumer<HomeCubit, HomeState>(
           listener: (context, state) {},
           builder: (context, state) {
             Size size = MediaQuery.of(context).size;
             return Scaffold(
               backgroundColor: Colors.white,
-              body: Column(
-                children: [
-                  Container(
-                    height: size.height * 0.14,
-                    width: double.infinity,
-                    color: Colors.lightGreen,
-                    child: Stack(
-                      children: const [
-                        Positioned(
-                          top: 85,
-                          left: 20,
-                          child: Text(
-                            'Favourites',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.normal,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  BuildCondition(
-                    condition: HomeCubit.get(context).favoritesProduct != null,
-                    builder:(context) => ListView.separated(
-                      itemBuilder: (context, index) => buildProductFavorite(
-                          HomeCubit.get(context).favoritesProduct[index],
-                          context),
-                      shrinkWrap: true,
-                      separatorBuilder: (context, index) => buildDivider(),
-                      itemCount: HomeCubit.get(context).favoritesProduct.length,
-                    ),
-                    fallback: (context) =>
-                    const Center(child: CircularProgressIndicator()),
-                  ),
-                ],
+              appBar: AppBar(
+                title: const Text('Favorite'),
+                backgroundColor: Colors.lightGreen,
+                elevation: 0,
+              ),
+              body: BuildCondition(
+                condition: HomeCubit.get(context).productModel != null,
+                builder:(context) => ListView.separated(
+                  itemBuilder: (context, index) => buildProductFavorite(
+                      HomeCubit.get(context).productModel[index],
+                      context,size),
+                  shrinkWrap: true,
+                  separatorBuilder: (context, index) => buildDivider(),
+                  itemCount: HomeCubit.get(context).productModel.length,
+                ),
+                fallback: (context) =>
+                const Center(child: CircularProgressIndicator()),
               ),
             );
           }),
@@ -70,18 +49,18 @@ class Favourite extends StatelessWidget {
   }
 }
 
-Widget buildProductFavorite(ProductModel productModel, BuildContext context) {
+Widget buildProductFavorite(ProductModel productModel, BuildContext context,Size size) {
   HomeCubit homeCubit = HomeCubit.get(context);
   return Padding(
-    padding: const EdgeInsets.all(20.0),
+    padding: const EdgeInsets.all(15.0),
     child: SizedBox(
-      height: 150,
+      height: size.height * 0.16,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 140,
-            width: 140,
+            height: size.height * 0.16,
+            width: size.width * 0.33,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(
                 20,
@@ -112,7 +91,8 @@ Widget buildProductFavorite(ProductModel productModel, BuildContext context) {
                     Text(
                       '${productModel.mass}',
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 11,
+                        color: Colors.grey,
                       ),
                     ),
                   ],

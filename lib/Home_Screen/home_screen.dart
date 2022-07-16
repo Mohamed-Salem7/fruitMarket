@@ -523,7 +523,7 @@ Widget buildProduct(ProductModel productModel, context, index,Size size) => Colu
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  // HomeCubit.get(context).favoriteProduct(HomeCubit.get(context).favorite[index]);
+                  HomeCubit.get(context).CheckFavourite(model: productModel);
                 },
                 child: CircleAvatar(
                   backgroundColor: Colors.white,

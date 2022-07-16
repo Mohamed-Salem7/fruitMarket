@@ -49,3 +49,33 @@ class ErrorGetFavoriteProduct extends HomeState {}
 class SuccessFavoriteVegetables extends HomeState {}
 
 class ErrorFavoriteVegetables extends HomeState {}
+
+
+class GetFavouriteLoadingState extends HomeState {}
+
+class GetFavouriteSuccessState extends HomeState {}
+
+
+class SetFavouriteLoadingState extends HomeState {}
+
+class SetFavouriteSuccessState extends HomeState {}
+
+class DeleteFavouriteLoadingState extends HomeState {}
+
+class DeleteFavouriteSuccessState extends HomeState {}
+
+
+class CheckFavouriteErrorState extends HomeState {
+  final String error;
+  CheckFavouriteErrorState(this.error);
+}
+
+class SetFavouriteErrorState extends HomeState {
+  final String error;
+  SetFavouriteErrorState(this.error);
+}
+
+class DeleteFavouriteErrorState extends HomeState {
+  final String error;
+  DeleteFavouriteErrorState(this.error);
+}
