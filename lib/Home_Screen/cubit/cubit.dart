@@ -125,7 +125,6 @@ class HomeCubit extends Cubit<HomeState> {
   List<ProductModel> productModel = [];
 
   void getFavouriteProduct() {
-    print(uId);
     emit(GetFavouriteLoadingState());
     productModel = [];
     FirebaseFirestore.instance
@@ -175,6 +174,62 @@ class HomeCubit extends Cubit<HomeState> {
       emit(DeleteFavouriteSuccessState());
     }).catchError((error) {
       emit(DeleteFavouriteErrorState(error.toString()));
+    });
+  }
+
+
+  List<ProductModel> wishlist = [];
+
+  void getWishlistProduct() {
+    emit(GetWishlistLoadingState());
+    wishlist = [];
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(uId)
+        .collection('wishlist')
+        .snapshots()
+        .listen((event) {
+      wishlist = [];
+      event.docs.forEach((element) {
+        wishlist.add(ProductModel.fromJson(element.data()));
+      });
+      emit(GetWishlistSuccessState());
+    });
+  }
+
+  void sendWishListProduct({
+    required ProductModel model,
+  }) {
+    String uid = model.uId;
+    emit(LoadingWishListProduct());
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(uId)
+        .collection('wishlist')
+        .doc(uid)
+        .set(model.toMap())
+        .then((value) {
+      emit(SuccessWishListProduct());
+    }).catchError((error) {
+      emit(ErrorWishListProduct(error.toString()));
+    });
+  }
+
+  void deleteWishListProduct({
+    required ProductModel model,
+  }) {
+    emit(LoadingDeleteWishListProduct());
+    String uid = model.uId;
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(uId)
+        .collection('wishlist')
+        .doc(uid)
+        .delete()
+        .then((value) {
+      emit(SuccessDeleteWishListProduct());
+    }).catchError((error) {
+      emit(ErrorDeleteWishListProduct(error.toString()));
     });
   }
 

@@ -6,6 +6,7 @@ class ProductModel
   late String uId;
   late double rating;
   late String describe;
+  late String type;
 
   ProductModel({
     required this.name,
@@ -13,6 +14,7 @@ class ProductModel
     required this.mass,
     required this.rating,
     required this.describe,
+    required this.type,
   });
 
   ProductModel.fromJson(Map<String,dynamic> json)
@@ -22,6 +24,7 @@ class ProductModel
     mass = json['mass'];
     uId = json['uId'];
     rating = json['rating'];
+    type = json['type'];
     describe = json['zdescribe'];
   }
 
@@ -34,7 +37,8 @@ class ProductModel
         'mass' : mass,
         'uId' : uId,
         'rating' : rating,
-        'describe' : describe,
+        'type' : type,
+        'zdescribe' : describe,
       };
   }
 }

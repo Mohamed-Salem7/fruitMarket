@@ -79,3 +79,26 @@ class DeleteFavouriteErrorState extends HomeState {
   final String error;
   DeleteFavouriteErrorState(this.error);
 }
+
+
+class LoadingWishListProduct extends HomeState {}
+
+class SuccessWishListProduct extends HomeState {}
+
+class ErrorWishListProduct extends HomeState {
+  final String error;
+  ErrorWishListProduct(this.error);
+}
+
+class LoadingDeleteWishListProduct extends HomeState {}
+
+class SuccessDeleteWishListProduct extends HomeState {}
+
+class GetWishlistLoadingState extends HomeState {}
+
+class GetWishlistSuccessState extends HomeState {}
+
+class ErrorDeleteWishListProduct extends HomeState {
+  final String error;
+  ErrorDeleteWishListProduct(this.error);
+}

@@ -159,7 +159,10 @@ Widget buildProductFavorite(ProductModel productModel, BuildContext context,Size
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: ()
+                      {
+                        HomeCubit.get(context).sendWishListProduct(model: productModel);
+                      },
                       child: Container(
                         height: 30,
                         width: 70,
