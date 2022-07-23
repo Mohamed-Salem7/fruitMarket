@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 
 void main() async {
 
-  Widget widget;
 
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,27 +21,12 @@ void main() async {
 
   uId = CacheHelper.getData(key: 'uId');
 
-  if(OnBoarding() != null)
-  {
-    if(uId != null)
-    {
-       widget = const MainScreen();
-    }else
-      {
-        widget = LoginScreen();
-      }
-  }else
-    {
-      widget = OnBoarding();
-    }
-
-  runApp(MyApp(startWidget: widget,));
+  runApp(MyApp());
 
 }
 
 class MyApp extends StatelessWidget {
-  final Widget startWidget;
-  const MyApp({Key? key, required this.startWidget}) : super(key: key);
+  const MyApp({Key? key,}) : super(key: key);
 
   // This widget is the root of your application.
   @override
